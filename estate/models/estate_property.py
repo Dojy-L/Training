@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 
 
 class EstateProperty(models.Model):
@@ -25,8 +26,8 @@ class EstateProperty(models.Model):
                               ('sold', 'Sold'), ('canceled', 'Canceled')], required=True, copy=False, default='new')
 
     property_type_id = fields.Many2one('estate.property.type', string="Type")
-    user_id = fields.Many2one('res.users', String="Sales Person", default=lambda self: self.env.user)
-    partner_id = fields.Many2one('res.partner', String="Buyer", copy=False)
+    user_id = fields.Many2one('res.users', string="Sales Person", default=lambda self: self.env.user)
+    partner_id = fields.Many2one('res.partner', string="Buyer", copy=False)
 
     offer_ids = fields.One2many('estate.property.offer', 'property_id', string='Offer Ids')
     tag_ids = fields.Many2many('estate.property.tag', string='Tags')
@@ -65,3 +66,36 @@ class EstateProperty(models.Model):
                         'title': _('Warning'),
                         'message': _('The availability date cannot be set before today.')
                     }}
+
+    def action_sold(self):
+        for rec in self:
+            print("drrrrrrrrrrrrrrrrrrrrr")
+            if rec.state =='canceled':
+                raise UserError(_(" A cancelled property cannot be set as sold"))
+            rec.state ='sold'
+
+    def action_cancel(self):
+        for rec in self:
+            if rec.state == 'sold':
+                raise UserError(_("A sold property cannot be cancelled."))
+            rec.state = 'canceled'
+
+    _expected_price_positive = models.Constraint(
+        'CHECK(expected_price > 0)',
+        'The expected price must be positive.',
+    )
+
+    _selling_price_positive = models.Constraint(
+        'check(selling_price > 0)',
+        'The selling price must be positive.',
+    )
+
+    @api.constrains('expected_price', 'selling_price')
+    def _check_price_ratio(self):
+        for rec in self:
+            if rec.selling_price and rec.expected_price:
+                if rec.selling_price < 0.9 * rec.expected_price:
+                    raise ValidationError(
+                        _("The selling price cannot be lower than 90%% of the expected price.")
+                    )
+

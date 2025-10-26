@@ -20,6 +20,8 @@ class EODRentalOrder(models.Model):
         'bike.shop', string="Shop", required=False)
     customer_id = fields.Many2one(
             'res.partner', string="Customer", required=True, tracking=True)
+    requested_date = fields.Datetime(string="Requested Date",
+        default=lambda self: fields.Datetime.now(),readonly=True,tracking=True)
 
     rental_date = fields.Datetime(
         string="Rental Date",
@@ -95,6 +97,8 @@ class EODRentalOrder(models.Model):
     def button_approve(self):
         for rec in self:
             rec.state = 'approved'
+            rec.rental_date = fields.Datetime.now()
+            rec.bike_id.is_available = False
 
     def button_reject(self):
         self.ensure_one()
@@ -111,3 +115,21 @@ class EODRentalOrder(models.Model):
     def button_cancel(self):
         for rec in self:
             rec.state = 'cancelled'
+
+    # @api.depends('rental_date', 'return_date', 'period')
+    # def _compute_spent_period(self):
+    #     for rec in self:
+    #         rec.spent_period = 0.0
+    #         if rec.rental_date and rec.return_date:
+    #             rental_dt = fields.Datetime.from_string(rec.rental_date)
+    #             return_dt = fields.Datetime.from_string(rec.return_date)
+    #
+    #             if return_dt < rental_dt:
+    #                 rec.spent_period = 0.0  # optional safety
+    #             else:
+    #                 duration = (return_dt - rental_dt).total_seconds()
+    #                 if rec.period == 'day':
+    #                     rec.spent_period = duration / (24 * 3600)
+    #                 elif rec.period == 'hourly':
+    #                     rec.spent_period = duration / 3600
+
