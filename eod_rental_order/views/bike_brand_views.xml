@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+<!--    <record id='bikes_brand_list' model='ir.ui.view'>-->
+<!--        <field name="name">bike.brand.list</field>-->
+<!--        <field name="model">bike.brand</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <list>-->
+<!--                <field name="name"/>-->
+<!--            </list>-->
+<!--        </field>-->
+<!--    </record>-->
+<!--    <record id="bike_brand_actions" model="ir.actions.act_window">-->
+<!--        <field name="name">Bike Brand</field>-->
+<!--        <field name="res_model">bike.brand</field>-->
+<!--        <field name="view_mode">list</field>-->
+<!--    </record>-->
+
+<!--    <menuitem id="bike_brand_menus"-->
+<!--              name="Bike Brand"-->
+<!--              parent="eod_configuration_root"-->
+<!--              action="bike_brand_actions"/>-->
+</odoo>

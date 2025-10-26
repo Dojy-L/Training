@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_eod_rental_order,eod_rental_order,model_eod_rental_order,,1,1,1,1
+access_eod_bike,eod_bike,model_eod_bike,,1,1,1,1
+access_bike_brand,bike_brand,model_bike_brand,,1,1,1,1
+access_bike_request_reject,bike_bike_request_reject,model_bike_request_reject,,1,1,1,1
+access_bike_shop,bike_shop,model_bike_shop,,1,1,1,1
