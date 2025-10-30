@@ -37,6 +37,11 @@
                             <field name="order_count" string="Orders" widget="statinfo"/>
                         </button>
                     </div>
+
+                    <widget name="web_ribbon" title="Available" bg_color="text-bg-success"
+                            invisible="not is_available"/>
+                    <widget name="web_ribbon" title="Unavailable" bg_color="text-bg-danger" invisible="is_available"/>
+
                     <div class="oe_title">
                         <h1>
                             <field name="name"/>
@@ -53,8 +58,9 @@
                         </group>
                         <group>
                             <field name="type"/>
-                            <field name="is_available" decoration-success="is_available == True"
-                                   decoration-danger="is_available == False"/>
+                            <field name="is_available"/>
+                            <!--                            decoration-success="is_available == True"-->
+                            <!--                                   decoration-danger="is_available == False"-->
                             <field name="color"/>
                             <field name="engine_capacity"/>
                             <field name="day_rent"/>

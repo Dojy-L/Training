@@ -1,4 +1,4 @@
-from odoo  import models,fields
+from odoo  import models,fields,api
 
 class EODBike(models.Model):
     _name = 'eod.bike'
@@ -27,7 +27,7 @@ class EODBike(models.Model):
     rental_order_ids = fields.One2many(
         'eod.rental.order', 'bike_id', string="Rental Orders"
     )
-    order_count = fields.Integer(compute='_computer_order_count')
+    order_count = fields.Integer(compute='_computer_order_count',store=True)
 
     # _sql_constraints = [
     #     ('number_plate_unique', 'unique(number_plate)', 'The number plate must be unique!')
@@ -38,6 +38,7 @@ class EODBike(models.Model):
         'The number plate must be unique!',
     )
 
+    @api.depends('rental_order_ids')
     def _computer_order_count(self):
         for rec in self:
             rec.order_count = len(rec.rental_order_ids)
