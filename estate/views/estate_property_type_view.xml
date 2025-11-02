@@ -6,7 +6,15 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <!-- Smart Button Section  -->
                     <div class="oe_button_box" name="button_box">
+                        <!--
+                           SMART BUTTON: "Offers"
+                           - Calls the Python method: action_open_offers()
+                           - Opens the list/form view of 'estate.property.offer'
+                           - Displays offer count using 'offer_count' field
+                           - Icon: FontAwesome list icon
+                       -->
                         <button string="Offers" class="oe_stat_button" icon="fa-list-ul"
                                 name="action_open_offers"
                                 type="object">
@@ -18,6 +26,7 @@
                         <field name="offer_ids" invisible="0"/>
 
                     </group>
+                    <!-- Notebook with related properties -->
                     <notebook>
                         <page string="Properties">
                             <field name="property_ids">
@@ -39,9 +48,14 @@
         <field name="model">estate.property.type</field>
         <field name="arch" type="xml">
             <list>
+                 <!--
+                    sequence (with widget="handle"):
+                        ➜ Allows drag-and-drop reordering in the list view.
+                        ➜ Controlled by the 'sequence' integer field in the model.
+                -->
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
-                <field name="offer_ids"  invisible="0"/>
+                <field name="offer_ids" invisible="0"/>
             </list>
         </field>
     </record>

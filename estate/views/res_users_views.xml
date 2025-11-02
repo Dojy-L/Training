@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+<!--    Add properties field inside the res users form view that is shown based on the  Sales person in the property form view-->
     <record id="view_users_form_inherit_estate" model="ir.ui.view">
         <field name="name">res.users.form.inherit.estate</field>
         <field name="model">res.users</field>
