@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from dateutil.relativedelta import relativedelta
 from dateutil.utils import today
-
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
@@ -9,6 +8,7 @@ from odoo.exceptions import UserError, ValidationError
 class EstateProperty(models.Model):
     _name = 'estate.property'
     _description = 'Real estate Properties'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
 
     name = fields.Char(string="Name", required=True)
@@ -28,6 +28,7 @@ class EstateProperty(models.Model):
                                           string="Garden Orientation", default='north')
     state = fields.Selection([('new', 'New'), ('received', 'Offer Received'), ('accepted', 'Offer Accepted'),
                               ('sold', 'Sold'), ('canceled', 'Canceled')], required=True, copy=False, default='new')
+
     property_type_id = fields.Many2one('estate.property.type', string="Type")
     user_id = fields.Many2one('res.users', string="Sales Person", default=lambda self: self.env.user)
     partner_id = fields.Many2one('res.partner', string="Buyer", copy=False)
@@ -71,6 +72,7 @@ class EstateProperty(models.Model):
                         'warning': {
                             'title': ('Warning'),
                             'message': _('Date availability should not lower than today')
+
                         }
                     }
 
@@ -110,4 +112,19 @@ class EstateProperty(models.Model):
             if rec.selling_price and rec.expected_price:
                 if rec.selling_price < 0.90 * rec.expected_price:
                     raise ValidationError(_("Selling price not lower than 90% of the expected price"))
+
+    # @api.ondelete
+    def unlink(self):
+        for rec in self:
+            if rec.state not in ['new', 'canceled']:
+                raise UserError(_("You can delete property only in 'New' or 'Canceled' state"))
+        return super(EstateProperty, self).unlink()
+
+    # def unlink(self):
+    #     if any(rec.state not in ['new', 'canceled'] for rec in self):
+    #         raise UserError(_("You can only delete properties in 'New' or 'Canceled' state."))
+    #     res = super().unlink()
+    #     return res
+
+
 
