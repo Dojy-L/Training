@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <record model="ir.module.category" id="module_category_library">
+        <field name="name">Library</field>
+        <field name="sequence">112</field>
+    </record>
+</odoo>

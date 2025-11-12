@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_library_book_id,library_book,model_library_book,eod_library_management.group_library_administrator,1,1,1,1
+access_library_book_worker_id,library_book_worker,model_library_book,eod_library_management.group_library_worker,1,1,1,0
+access_group_library_administrator,group_library_administrator,model_book_rental,eod_library_management.group_library_administrator,1,1,1,1
+access_group_library_worker,group_library_worker,model_book_rental,eod_library_management.group_library_worker,1,1,1,0

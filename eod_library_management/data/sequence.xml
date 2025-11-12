@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="sequence_book_rental" model="ir.sequence">
+            <field name="name">Book Rental Sequence</field>
+            <field name="code">book.sequence.no</field>
+            <field name="prefix">BR</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

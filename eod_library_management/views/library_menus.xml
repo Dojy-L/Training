@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem id="eod_library_root_menu" name="Library Management">
+        <menuitem id="library_menu" name="Library">
+        </menuitem>
+        <menuitem id="library_order_menu" name="Orders">
+        </menuitem>
+        <menuitem id="library_report_menu" name="Reports">
+        </menuitem>
+    </menuitem>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <record model="res.groups.privilege" id="res_groups_privilege_library">
+        <field name="name">Library Mgmt</field>
+        <field name="category_id" ref="eod_library_management.module_category_library"/>
+    </record>
+
+    <record id="group_library_worker" model="res.groups">
+        <field name="name">Library Worker</field>
+    </record>
+
+
+    <record id="group_library_administrator" model="res.groups">
+        <field name="name">Library Administrator</field>
+<!--        <field name="implied_ids" eval="[(4, ref('eod_library_management.group_library_worker'))]"/>-->
+
+        <!--                <field name="category_id" ref="eod_library_management.module_category_library"/>-->
+    </record>
+
+
+</odoo>

@@ -1,0 +1,174 @@
+<odoo>
+    <template id="ongoing_rental_report_template">
+        <t t-call="web.html_container">
+            <!-- Group by Customer -->
+            <t t-set="grouped_customers"
+               t-value="{}"/>
+            <t t-foreach="docs" t-as="rental">
+                <t t-set="customer_id" t-value="rental.renter_id.id"/>
+                <t t-if="grouped_customers.update({customer_id: grouped_customers.get(customer_id, []) + [rental]})"/>
+            </t>
+
+            <!-- Loop through grouped customers -->
+            <t t-foreach="grouped_customers.items()" t-as="customer_data">
+                <t t-set="customer" t-value="customer_data[1][0].renter_id"/>
+                <t t-set="customer_rentals" t-value="customer_data[1]"/>
+
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="text-align:center; color:#003366;">Ongoing Rental Report</h2>
+                        <h4>
+                            <span t-esc="customer.name"/>
+                        </h4>
+
+                        <div class="row" style="margin-top:20px;">
+                            <div class="col-6">
+                                <p>
+                                    <strong>Customer:</strong>
+                                    <span t-esc="customer.name"/>
+                                </p>
+                                <p>
+                                    <strong>Address:</strong>
+                                    <span t-esc="customer.contact_address"/>
+                                </p>
+                                <p>
+                                    <strong>Email:</strong>
+                                    <span t-esc="customer.email"/>
+                                </p>
+                                <p>
+                                    <strong>Phone:</strong>
+                                    <span t-esc="customer.phone"/>
+                                </p>
+                            </div>
+                        </div>
+
+                        <style>
+                            .overdue-row { color: red !important; }
+                            .overdue-row td { color: red !important; }
+                            .normal-row { color: black; }
+                        </style>
+
+                        <table class="table table-sm table-bordered" style="width:100%; border-collapse:collapse;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="padding:5px;">SL No</th>
+                                    <th class="text-center">Book Name</th>
+                                    <th class="text-center">Start Date</th>
+                                    <th class="text-center">Due Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="index" t-value="0"/>
+                                <t t-foreach="[r for r in customer_rentals if r.state in ['rented','overdue']]"
+                                   t-as="rental">
+
+                                    <!--                                <t t-foreach="customer_rentals.filtered(lambda r: r.state in ['rented','overdue'])" t-as="rental">-->
+                                    <t t-set="index" t-value="index + 1"/>
+                                    <tr t-attf-class="#{('overdue-row' if rental.overdue_days > 0 else 'normal-row')}">
+                                        <td class="text-center">
+                                            <t t-esc="index"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="rental.book_id.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="rental.start_date"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="rental.due_date"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
+
+
+        <!--<?xml version="1.0" encoding="utf-8"?>-->
+        <!--<odoo>-->
+
+        <!--    <template id="ongoing_rental_report_template">-->
+        <!--        <t t-call="web.html_container">-->
+        <!--            <t t-foreach="docs" t-as="o">-->
+        <!--                <t t-call="web.external_layout">-->
+        <!--                    <div class="page">-->
+        <!--                        <h2 style="text-align:center; color:#003366;">Ongoing Rental Report</h2>-->
+        <!--                        <h4>-->
+        <!--                            <span t-field="o.order_no"/>-->
+        <!--                        </h4>-->
+        <!--                        <div class="row" style="margin-top:20px;">-->
+        <!--                            <div class="col-6">-->
+        <!--                                <p>-->
+        <!--                                    <strong>Customer:</strong>-->
+        <!--                                    <span t-field="o.renter_id.name"/>-->
+        <!--                                </p>-->
+        <!--                                <p>-->
+        <!--                                    <strong>Address:</strong>-->
+        <!--                                    <span t-field="o.renter_id.contact_address"/>-->
+        <!--                                </p>-->
+        <!--                                <p>-->
+        <!--                                    <strong>Email:</strong>-->
+        <!--                                    <span t-field="o.renter_id.email"/>-->
+        <!--                                </p>-->
+        <!--                                <p>-->
+        <!--                                    <strong>Phone:</strong>-->
+        <!--                                    <span t-field="o.renter_id.phone"/>-->
+        <!--                                </p>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <style>-->
+        <!--                            .overdue-row {-->
+        <!--                            color: red !important;-->
+        <!--                            }-->
+        <!--                            .overdue-row td {-->
+        <!--                            color: red !important;-->
+        <!--                            }-->
+        <!--                            .normal-row {-->
+        <!--                            color: black;-->
+        <!--                            }-->
+        <!--                        </style>-->
+        <!--                        <table class="table table-sm table-bordered" style="width:100%; border-collapse:collapse;">-->
+        <!--                            <thead>-->
+        <!--                                <tr>-->
+        <!--                                    <th style="padding:5px;" class="text-center">SL No</th>-->
+        <!--                                    <th class="text-center">Book Name</th>-->
+        <!--                                    <th class="text-center">Start Date</th>-->
+        <!--                                    <th class="text-center">Due Date</th>-->
+        <!--                                </tr>-->
+        <!--                            </thead>-->
+        <!--                            <tbody>-->
+        <!--                                <t t-set="index" t-value="0"/>-->
+        <!--                                <t t-foreach="o.renter_id.rental_ids.filtered(lambda r: r.state in ['rented','overdue'])"-->
+        <!--                                   t-as="rental">-->
+        <!--                                    <t t-set="index" t-value="index + 1"/>-->
+        <!--                                    <tr t-attf-class="#{('overdue-row' if rental.overdue_days > 0 else 'normal-row')}">-->
+
+        <!--                                        &lt;!&ndash;                                <tr t-attf-style="color: #{'red' if o.overdue_days > 0 else 'black'};">&ndash;&gt;-->
+        <!--                                        &lt;!&ndash;                                    <tr t-attf-style="background-color: #{'rgba(255, 0, 0, 0.15)' if o.overdue_days > 0 else 'white'};">&ndash;&gt;-->
+        <!--                                        <td class="text-center" style="padding:4px;">-->
+        <!--                                            <t t-esc="index"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td class="text-center">-->
+        <!--                                            <span t-field="rental.book_id.name"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td class="text-center">-->
+        <!--                                            <span t-field="rental.start_date"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td class="text-center">-->
+        <!--                                            <span t-field="rental.due_date"/>-->
+        <!--                                        </td>-->
+        <!--                                    </tr>-->
+        <!--                                </t>-->
+        <!--                            </tbody>-->
+        <!--                        </table>-->
+        <!--                    </div>-->
+        <!--                </t>-->
+        <!--            </t>-->
+        <!--        </t>-->
+        <!--    </template>-->
+        <!--</odoo>-->

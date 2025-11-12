@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="rental_overdue_template" name="Fine Page">
+        <t t-call="website.layout">
+            <div class="container mt-4">
+                <h3>Rental Books Overdue Details</h3>
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Book Name</th>
+                            <th>Customer</th>
+                            <th>Due Date</th>
+                            <th>Return Date</th>
+                            <th>Fine</th>
+                            <!--                            <th>Rent Amount</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="overdue" t-as="due">
+                            <tr>
+                                <td>
+                                    <t t-esc="due.order_no"/>
+                                </td>
+                                <td>
+                                    <t t-esc="due.book_id.name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="due.renter_id.name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="due.due_date"/>
+                                </td>
+                                <td>
+                                    <t t-esc="due.end_date"/>
+                                </td>
+                                <td>
+                                    <t t-esc="due.overdue_fine or 0"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

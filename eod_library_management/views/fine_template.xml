@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+     <template id="books_fine_template" name="Fine Page">
+        <t t-call="website.layout">
+            <div class="container mt-4">
+                <h3>Customer Overdue Fines</h3>
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Total Overdue Fine</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="fines" t-as="fine">
+                            <tr>
+                                <td><t t-esc="fine['customer'].name"/></td>
+                                <td><t t-esc="fine['total_fine']"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>
+
+
+<!--    <template id="books_fine_template" name="Fine Page">-->
+<!--        <t t-call="website.layout">-->
+<!--            <div class="container mt-4">-->
+<!--                <h3>Rental Books Fine Details</h3>-->
+<!--                <table class="table table-striped mt-3">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th>Order</th>-->
+<!--                            <th>Book Name</th>-->
+<!--                            <th>Customer</th>-->
+<!--                            <th>Due Date</th>-->
+<!--                            <th>Return Date</th>-->
+<!--                            <th>Fine</th>-->
+<!--&lt;!&ndash;                            <th>Rent Amount</th>&ndash;&gt;-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                   <tbody>-->
+<!--                    <t t-foreach="fines" t-as="fine">-->
+<!--                        <tr>-->
+<!--                            <td><t t-esc="fine.order_no"/></td>-->
+<!--                            <td><t t-esc="fine.book_id.name"/></td>-->
+<!--                            <td><t t-esc="fine.renter_id.name"/></td>-->
+<!--                            <td><t t-esc="fine.due_date"/></td>-->
+<!--                            <td><t t-esc="fine.end_date"/></td>-->
+<!--                            <td><t t-esc="fine.overdue_fine or 0"/></td>-->
+<!--                        </tr>-->
+<!--                    </t>-->
+<!--                </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </t>-->
+<!--    </template>-->

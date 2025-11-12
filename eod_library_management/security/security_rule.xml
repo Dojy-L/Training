@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="book_rental_rule_worker_own" model="ir.rule">
+        <field name="name">Worker can manage own rentals</field>
+        <field name="model_id" ref="model_book_rental"/>
+        <field name="groups" eval="[(4, ref('eod_library_management.group_library_worker'))]"/>
+        <field name="domain_force">[
+            '|', ('renter_id','=',user.partner_id.id),
+            ('create_uid','=',user.id)
+            ]
+        </field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="book_rental_rule_admin_all" model="ir.rule">
+        <field name="name">Administrator full access</field>
+        <field name="model_id" ref="model_book_rental"/>
+        <field name="groups" eval="[(4, ref('eod_library_management.group_library_administrator'))]"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>

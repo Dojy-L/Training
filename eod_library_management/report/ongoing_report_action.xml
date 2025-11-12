@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_ongoing_rental" model="ir.actions.report">
+        <field name="name">Ongoing Rental Report</field>
+        <field name="model">book.rental</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">eod_library_management.ongoing_rental_report_template</field>
+        <field name="report_file">eod_library_management.ongoing_rental_report_template</field>
+        <field name="print_report_name">'Ongoing Rental Report - %s' % (object.order_no)</field>
+        <field name="binding_model_id" ref="eod_library_management.model_book_rental"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

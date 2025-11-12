@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_partner_form_library" model="ir.ui.view">
+        <field name="name">res.partner.form.library</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <page string="Library Rentals">
+                    <field name="rental_ids"  options="{'no_create_edit': True}">
+                        <list string="Rentals">
+                            <field name="book_id"/>
+                            <field name="start_date"/>
+                            <field name="due_date"/>
+                            <field name="end_date"/>
+                            <field name="overdue_days"/>
+                            <field name="overdue_fine" sum="Total"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

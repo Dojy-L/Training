@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="book_rental_view_map" model="ir.ui.view">
+        <field name="name">book.rental.view.map</field>
+        <field name="model">book.rental</field>
+        <field name="arch" type="xml">
+            <map res_partner="renter_id" routing="1">
+                <field name="order_no" string="Orders"/>
+                <field name="renter_id" string="Renter"/>
+            </map>
+        </field>
+    </record>
+
+    <record id="view_book_rental_search" model="ir.ui.view">
+        <field name="name">book.rental.search</field>
+        <field name="model">book.rental</field>
+        <field name="arch" type="xml">
+            <search string="Search Rentals">
+                <field name="order_no"/>
+                <field name="book_id"/>
+                <field name="renter_id"/>
+
+                <filter string="Active Rentals" name="active_rentals"
+                        domain="[('end_date', '=', False)]"/>
+                <filter string="Returned" name="returned"
+                        domain="[('end_date', '!=', False)]"/>
+                <filter string="Overdue" name="overdue"
+                        domain="[('overdue_days', '>', 0)]"/>
+
+                <group>
+                    <filter string="Book" name="group_book"
+                            context="{'group_by': 'book_id'}"/>
+                    <filter string="Renter" name="group_renter"
+                            context="{'group_by': 'renter_id'}"/>
+                    <filter string="Start Date" name="group_start_date"
+                            context="{'group_by': 'start_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_book_rental_tree" model="ir.ui.view">
+        <field name="name">book.rental.view.tree</field>
+        <field name="model">book.rental</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="order_no"/>
+                <field name="book_id"/>
+                <field name="renter_id"/>
+                <field name="start_date"/>
+                <field name="overdue_days" optional="hide"/>
+                <field name="state" optional="hide"/>
+                <field name="overdue_fine" />
+                <field name="due_date" optional="hide"/>
+                <field name="end_date" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_book_rental_form" model="ir.ui.view">
+        <field name="name">library.book.rental.form</field>
+        <field name="model">book.rental</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_rent" type="object" string="Rent" class="btn btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_return" type="object" string="Return" class="btn btn-primary"
+                            invisible="state != 'rented'"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="order_no" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="book_id"/>
+                            <field name="renter_id"/>
+                            <field name="renter_phone" no_label="1"/>
+                            <field name="renter_email" no_label="1"/>
+                            <field name="renter_street" no_label="1"/>
+<!--                            <field name="renter_street2" no_label="1"/>-->
+<!--                            <field name="renter_zip" no_label="1"/>-->
+<!--                            <field name="renter_state_id" no_label="1"/>-->
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="due_date"/>
+                            <field name="end_date"/>
+                            <field name="overdue_days"/>
+                            <field name="overdue_fine" sum="Total"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="extra_info" string="Additional Info">
+                            <field name="extra_info"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="library_book_rental_action" model="ir.actions.act_window">
+        <field name="name">Book Rental</field>
+        <field name="res_model">book.rental</field>
+        <field name="view_mode">list,form,map</field>
+    </record>
+
+    <menuitem id="book_rental_menu"
+              parent="library_order_menu"
+              name="Rentals"
+              action="library_book_rental_action"
+    />
+</odoo>

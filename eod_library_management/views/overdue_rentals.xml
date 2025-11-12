@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="library_overdue_rental_action" model="ir.actions.act_window">
+        <field name="name">Overdue Rental</field>
+        <field name="res_model">book.rental</field>
+        <field name="view_mode">list,form</field>
+         <field name="domain">[('overdue_days', '>', 0)]</field>
+        <field name="context">{'search_default_order': 'overdue_days asc'}</field>
+    </record>
+
+    <menuitem id="book_overdue_rental_menu"
+              parent="library_order_menu"
+              name="Overdue Rentals"
+              action="library_overdue_rental_action"
+    />
+</odoo>

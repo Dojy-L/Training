@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="books_page_template" name="Books Page">
+        <t t-call="website.layout">
+            <div class="container mt-4">
+                <h2>Available Books</h2>
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Available Copies</th>
+<!--                            <th>Rent Amount</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="books" t-as="book">
+                            <tr>
+                                 <td>
+                                    <img t-att-src="book.image and '/web/image/library.book/' + str(book.id) + '/image' or '/web/static/src/img/placeholder.png'"
+                                         alt="Book Cover"
+                                         style="max-height: 80px; max-width: 60px; border-radius: 8px; box-shadow: 0 0 4px rgba(0,0,0,0.2);" />
+                                </td>
+                                <td>
+                                    <t t-esc="book.name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="', '.join(book.author_ids.mapped('name')) or 'N/A'"/>
+                                </td>
+                                <td>
+                                    <t t-esc="book.isbn"/>
+                                </td>
+                                <td>
+                                    <t t-esc="book.available_copies"/>
+                                </td>
+<!--                                <td>-->
+<!--                                    <t t-esc="book.book_rent"/>-->
+<!--                                </td>-->
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>
