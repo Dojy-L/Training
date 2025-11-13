@@ -1,30 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
-     <template id="books_fine_template" name="Fine Page">
-        <t t-call="website.layout">
-            <div class="container mt-4">
-                <h3>Customer Overdue Fines</h3>
-                <table class="table table-striped mt-3">
-                    <thead>
-                        <tr>
-                            <th>Customer</th>
-                            <th>Total Overdue Fine</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="fines" t-as="fine">
-                            <tr>
-                                <td><t t-esc="fine['customer'].name"/></td>
-                                <td><t t-esc="fine['total_fine']"/></td>
-                            </tr>
+  <template id="books_fine_template" name="Fine Page">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-5">
+                <div class="card shadow-sm border-0">
+<!--                    <div class="card-body">-->
+                        <h4 class="text-center mb-4 fw-bold text-primary">
+                            Customer Overdue Fines
+                        </h4>
+
+                        <t t-if="fines">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped align-middle text-center">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="text-uppercase">Customer</th>
+                                            <th class="text-uppercase">Total Overdue Fine (₹)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="fines" t-as="fine">
+                                            <tr>
+                                                <td><t t-esc="fine['customer'].name"/></td>
+                                                <td class="fw-semibold text-danger">
+                                                    <t t-esc="fine['total_fine']"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
                         </t>
-                    </tbody>
-                </table>
+
+                        <t t-else="">
+                            <div class="alert alert-info text-center mt-4" role="alert">
+                                <i class="fa fa-info-circle me-2"></i>
+                                There are no fine records yet.
+                            </div>
+                        </t>
+                    </div>
+<!--                </div>-->
             </div>
         </t>
-    </template>
-</odoo>
+    </template></odoo>
 
 
 <!--    <template id="books_fine_template" name="Fine Page">-->

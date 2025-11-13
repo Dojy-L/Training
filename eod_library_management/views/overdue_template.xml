@@ -1,47 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <template id="rental_overdue_template" name="Rental Overdue Page">
+        <t t-call="portal.portal_layout">
+            <t t-set="title">Rental Books Overdue Details</t>
+            <div class="container my-5">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header text-black text-center py-3 rounded-top">
+                        <h4 class="mb-0">
+<!--                            <i class="fa fa-exclamation-circle me-2"></i>-->
+                            Rental Books Overdue Details
+                        </h4>
+                    </div>
 
-    <template id="rental_overdue_template" name="Fine Page">
-        <t t-call="website.layout">
-            <div class="container mt-4">
-                <h3>Rental Books Overdue Details</h3>
-                <table class="table table-striped mt-3">
-                    <thead>
-                        <tr>
-                            <th>Order</th>
-                            <th>Book Name</th>
-                            <th>Customer</th>
-                            <th>Due Date</th>
-                            <th>Return Date</th>
-                            <th>Fine</th>
-                            <!--                            <th>Rent Amount</th>-->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="overdue" t-as="due">
-                            <tr>
-                                <td>
-                                    <t t-esc="due.order_no"/>
-                                </td>
-                                <td>
-                                    <t t-esc="due.book_id.name"/>
-                                </td>
-                                <td>
-                                    <t t-esc="due.renter_id.name"/>
-                                </td>
-                                <td>
-                                    <t t-esc="due.due_date"/>
-                                </td>
-                                <td>
-                                    <t t-esc="due.end_date"/>
-                                </td>
-                                <td>
-                                    <t t-esc="due.overdue_fine or 0"/>
-                                </td>
-                            </tr>
+                    <!-- Body -->
+                    <div class="card-body">
+                        <t t-if="overdue">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle text-center mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Order</th>
+                                            <th>Book Name</th>
+                                            <th>Customer</th>
+                                            <th>Due Date</th>
+                                            <th>Return Date</th>
+                                            <th>Fine (AED)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="overdue" t-as="due">
+                                            <tr>
+                                                <td>
+                                                    <span class="fw-semibold text-primary">
+                                                        <t t-esc="due.order_no"/>
+                                                    </span>
+                                                </td>
+                                                <td><t t-esc="due.book_id.name"/></td>
+                                                <td><t t-esc="due.renter_id.name"/></td>
+                                                <td>
+                                                    <span class="text-danger fw-semibold">
+                                                        <t t-esc="due.due_date"/>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <t t-if="due.end_date">
+                                                        <t t-esc="due.end_date"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span class="badge bg-warning text-dark">Not Returned</span>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <t t-if="due.overdue_fine">
+                                                        <span class="badge bg-danger fs-6 px-3 py-2">
+                                                            <t t-esc="due.overdue_fine"/>
+                                                        </span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span class="text-muted">0</span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
                         </t>
-                    </tbody>
-                </table>
+                        <t t-else="">
+                            <div class="alert alert-info text-center mt-4 mb-0" role="alert">
+                                <i class="fa fa-info-circle me-2"></i>
+                                You have no overdue rental records yet.
+                            </div>
+                        </t>
+                    </div>
+
+                </div>
             </div>
         </t>
     </template>

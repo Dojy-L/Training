@@ -101,7 +101,6 @@
                         </h1>
                     </div>
                     <group>
-                        <field name="name"/>
                         <field name="author_ids" widget="many2many_tags"/>
                         <field name="isbn"/>
                         <field name="summary"/>

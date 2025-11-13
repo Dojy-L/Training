@@ -1,0 +1,5 @@
+.o_portal_docs img[src*="books.svg"] {
+    width: 66px !important;
+    height: 66px !important;
+    object-fit: contain;
+}

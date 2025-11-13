@@ -4,6 +4,14 @@ from odoo.http import request
 
 class LibraryController(http.Controller):
 
+    # def _prepare_home_portal_values(self, counters):
+    #     values = super()._prepare_home_portal_values(counters)
+    #     if 'timesheet_count' in counters:
+    #         Timesheet = request.env['account.analytic.line']
+    #         domain = Timesheet._timesheet_get_portal_domain()
+    #         values['timesheet_count'] = Timesheet.sudo().search_count(domain)
+    #     return values
+
     @http.route('/books', type='http', auth='public', website=True)
     def library_books_val(self, **kwargs):
         books = request.env['library.book'].sudo().search([])

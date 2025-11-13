@@ -1,47 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="books_page_template" name="Books Page">
-        <t t-call="website.layout">
+        <t t-call="portal.portal_layout">
             <div class="container mt-4">
-                <h2>Available Books</h2>
-                <table class="table table-striped mt-3">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Category</th>
-                            <th>Available Copies</th>
-<!--                            <th>Rent Amount</th>-->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="books" t-as="book">
-                            <tr>
-                                 <td>
-                                    <img t-att-src="book.image and '/web/image/library.book/' + str(book.id) + '/image' or '/web/static/src/img/placeholder.png'"
-                                         alt="Book Cover"
-                                         style="max-height: 80px; max-width: 60px; border-radius: 8px; box-shadow: 0 0 4px rgba(0,0,0,0.2);" />
-                                </td>
-                                <td>
-                                    <t t-esc="book.name"/>
-                                </td>
-                                <td>
-                                    <t t-esc="', '.join(book.author_ids.mapped('name')) or 'N/A'"/>
-                                </td>
-                                <td>
-                                    <t t-esc="book.isbn"/>
-                                </td>
-                                <td>
-                                    <t t-esc="book.available_copies"/>
-                                </td>
-<!--                                <td>-->
-<!--                                    <t t-esc="book.book_rent"/>-->
-<!--                                </td>-->
-                            </tr>
-                        </t>
-                    </tbody>
-                </table>
+                <h4 class="text-center mb-4">Available Books</h4>
+
+                <t t-if="books">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>ISBN</th>
+                                    <th>Author</th>
+                                    <th>Available Copies</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="books" t-as="book">
+                                    <tr>
+                                        <td style="vertical-align: middle;">
+                                            <div class="d-flex justify-content-center align-items-center"
+                                                 style="height: 100%;">
+                                                <t t-if="book.image">
+                                                    <img t-att-src="'/web/image/library.book/' + str(book.id) + '/image'"
+                                                         alt="Book Cover"
+                                                         class="rounded shadow-sm"
+                                                         style="width: 60px; height: 80px; object-fit: cover; border-radius: 8px;"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="d-flex justify-content-center align-items-center bg-light text-secondary border rounded shadow-sm"
+                                                         style="width: 60px; height: 80px; border-radius: 8px;">
+                                                        <i class="fa fa-book fs-3"></i>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <t t-esc="book.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="book.isbn or ''"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="', '.join(book.author_ids.mapped('name')) or ''"/>
+                                        </td>
+                                        <td>
+                                            <span t-attf-class="badge rounded-pill #{'bg-success' if book.available_copies > 0 else 'bg-danger'}">
+                                                <t t-esc="book.available_copies"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+
+                <t t-else="">
+                    <div class="alert alert-info text-center mt-4" role="alert">
+                        <i class="fa fa-info-circle me-2"></i>
+                        There are no available books at the moment.
+                    </div>
+                </t>
             </div>
         </t>
     </template>

@@ -32,6 +32,13 @@
         'report/ongoing_report_action.xml',
         'report/ongoing_report_template.xml',
     ],
+
+    'assets': {
+        'web.assets_frontend': [
+            '/eod_library_management/static/src/css/portal_custom.css',
+        ],
+    },
+
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
